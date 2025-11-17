@@ -1,0 +1,18 @@
+[project]
+name = "pp-recognize"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "dateparser>=1.2.2",
+    "numpy>=2.2.6",
+    "opencv-python>=4.12.0.88",
+    "pdf2image>=1.17.0",
+    "pdfplumber>=0.11.8",
+    "pytesseract>=0.3.13",
+    "ru-core-news-sm",
+    "spacy>=3.8.9",
+]
+
+[tool.uv.sources]
+ru-core-news-sm = { path = "ru_core_news_sm-3.8.0-py3-none-any.whl" }
