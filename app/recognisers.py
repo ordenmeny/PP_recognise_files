@@ -1,26 +1,17 @@
 from abc import ABC, abstractmethod
-from parsers import InvoiceParse, TorgParse, UPDParse, BaseParser
+
+from app.parsers import UPDParse
+from parsers import BaseParser
 
 
 class BaseRecognisers(ABC):
-    def __init__(self, file_path):
+    def __init__(self, file_path, parser_factory):
         self.file_path = file_path
+        self.parser_factory = parser_factory
 
     @abstractmethod
     def recognise(self) -> list | dict:
         pass
-
-
-class ParserFactory:
-    parsers = {
-        "УПД": UPDParse,
-        "Фактура": InvoiceParse,
-        "Торг": TorgParse
-    }
-
-    @staticmethod
-    def get_parsers(doc_type, text) -> BaseParser:
-        return ParserFactory.parsers.get(doc_type)(text)
 
 
 class PDFRecogniser(BaseRecognisers):
@@ -34,6 +25,7 @@ class ImageRecogniser(BaseRecognisers):
         recognised_text = f"based on {self.file_path}"
         recognised_text_type = "УПД"
 
-        parser: BaseParser = ParserFactory.get_parsers(recognised_text_type, recognised_text)
+        parser: BaseParser = self.parser_factory.get_parser(recognised_text_type, recognised_text)
 
         return parser.parse()
+
